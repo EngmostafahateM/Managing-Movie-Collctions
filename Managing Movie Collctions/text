@@ -1,0 +1,114 @@
+i need from you Make DTO to ueses in Repos for this Model 
+Movie Model :
+using System.ComponentModel.DataAnnotations;
+
+namespace Managing_Movie_Collctions.Models
+{
+    public class Movie
+    {
+        public int Id { get; set; }
+
+        [Required]
+        [StringLength(200)]
+        public string Title { get; set; }
+        public DateTime ReleaseYear { get; set; }
+
+        public ICollection<Director> Directors { get; set; }
+        public Category Category { get; set; }
+    }
+}
+
+
+Category Model:
+using System.ComponentModel.DataAnnotations;
+
+namespace Managing_Movie_Collctions.Models
+{
+    public class Category
+    {
+        public int Id { get; set; }
+        [Required]
+        [StringLength(50)]
+        public string Name { get; set; }
+        public ICollection<Movie> Movies { get; set;}
+    }
+}
+
+
+Nationality Model:
+using System.ComponentModel.DataAnnotations;
+
+namespace Managing_Movie_Collctions.Models
+{
+    public class Nationality
+    {
+        public int Id { get; set; }
+        [Required]
+        [StringLength(50)]
+        public string Name { get; set; }
+        public Director Director { get; set; }
+    }
+}
+
+Director Model:
+using System.ComponentModel.DataAnnotations;
+
+namespace Managing_Movie_Collctions.Models
+{
+    public class Director
+    {
+        public int Id { get; set; }
+        [Required]
+        [StringLength(50)]
+        public string Name { get; set; }
+
+        [Phone(ErrorMessage =("Please enter Your Phone Number"))]
+        public string Contact { get; set; }
+
+        [EmailAddress(ErrorMessage ="Please enter your Email")]
+        public string Email { get; set; }
+        public ICollection<Movie> Movies { get; set; }
+        public int NationalityID { get; set; }
+        public Nationality Nationality { get; set; }
+    }
+}
+
+
+and make the rebo to this Model In Repo movie you will make 3 function 
+
+in repo for movie you will make 3 function 
+
+Create Movies controller useing Repositry pattern:
+1.Get/api/Movies:Retrieves all Movies with their associated  Directors and Categories with the Nationality of Directors
+2.Get/api/Movies/{id}:Retrieves a specific movie by with their associated  Directors and Categories with the Nationality of Directors
+3.post/api/movies:Adds a new movie,validating required fields(Title and Releaseyear) and the addition of Directors and Categories. Returns 400 for validation failuers and 201 created for successful creation.
+
+Create Directors controller useing Repositry pattern:
+
+1.post/api/directors:adds a new director
+2.put/api/directors/{id}:Update an existing director by ID.
+3.delete/api/directors/{id}:deletes a director by id.
+
+Create Categories controller useing Repositry pattern:
+
+1.post/api/directors:adds a new Category
+2.put/api/directors/{id}:Update an existing Category by ID.
+
+Create Nationalities controller useing Repositry pattern:
+
+1.post/api/Nationality:adds a new Nationality
+2.put/api/directors/{id}:Update an existing Nationality by ID.
+
+
+Model Validation:
+Ensure that :
+title and Releyear are required for Post and Put methodsin Movies Controller.
+Name is required for Director and Category.
+Contact for the Director shoud be a valid email address.
+Email for the Director should be a validemail adreess.
+return appropriate vaildation error message in case of failure.
+
+HTTP sttus codes based on operation results:
+ 1.200 ok for successful retrieval.
+ 2.404 not found if an entity is missing.
+ 3.400 bad Request for validation error.
